@@ -14,18 +14,22 @@ import sys
 from pathlib import Path
 from dotenv import load_dotenv
 from langchain import hub
+import json
 from utils import save_yaml, check_env_vars, print_section_header
 
 load_dotenv()
 
 
 def pull_prompts_from_langsmith():
-    ...
-
+    prompt = hub.pull(owner_repo_commit="leonanluppi/bug_to_user_story_v1")
+    # print(prompt)
+    save_yaml(prompt, "prompts/raw_prompts.yml")
 
 def main():
     """Função principal"""
-    ...
+    print('Starting prompt pull process...')
+    pull_prompts_from_langsmith()
+    print('Prompt pull process completed.')
 
 
 if __name__ == "__main__":

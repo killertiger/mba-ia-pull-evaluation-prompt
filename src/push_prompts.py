@@ -88,7 +88,7 @@ def validate_prompt(prompt_data: dict) -> tuple[bool, list]:
 def main():
     """Função principal"""
     ...
-    files = Path("prompts").glob("*.yml")
+    files = [Path('prompts/bug_to_user_story_v2.yml')]
     for file in files:
         prompt_dict = load_yaml(file)  # Carrega e valida cada prompt
         is_valid, errors = validate_prompt(prompt_dict)

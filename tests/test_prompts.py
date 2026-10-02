@@ -19,11 +19,18 @@ def load_prompts(file_path: str):
 class TestPrompts:
     def test_prompt_has_system_prompt(self):
         """Verifica se o campo 'system_prompt' existe e não está vazio."""
-        pass
+        data = load_prompts("prompts/bug_to_user_story_v2.yml")  # Carrega o prompt para teste
+        prompt = next(iter(data.values()))  # Extrai o conteúdo do prompt
+
+        assert 'system_prompt' in prompt, "O campo 'system_prompt' não existe no prompt"
+        assert prompt['system_prompt'].strip(), "O campo 'system_prompt' está vazio"
 
     def test_prompt_has_role_definition(self):
         """Verifica se o prompt define uma persona (ex: "Você é um Product Manager")."""
-        pass
+        data = load_prompts("prompts/bug_to_user_story_v2.yml")  # Carrega o prompt para teste
+        prompt = next(iter(data.values()))  # Extrai o conteúdo do prompt
+
+        assert "Você é um" in prompt['system_prompt'].strip(), "O 'system_prompt' deve definir uma persona (ex: 'Você é um Product Manager')"
 
     def test_prompt_mentions_format(self):
         """Verifica se o prompt exige formato Markdown ou User Story padrão."""
@@ -35,7 +42,11 @@ class TestPrompts:
 
     def test_prompt_no_todos(self):
         """Garante que você não esqueceu nenhum `[TODO]` no texto."""
-        pass
+        data = load_prompts("prompts/bug_to_user_story_v2.yml")  # Carrega o prompt para teste
+        prompt = next(iter(data.values()))  # Extrai o conteúdo do prompt
+
+        assert "[TODO]" not in prompt['system_prompt'], "O 'system_prompt' contém '[TODO]'"
+        assert "[TODO]" not in prompt['user_prompt'], "O 'user_prompt' contém '[TODO]'"
 
     def test_minimum_techniques(self):
         """Verifica (através dos metadados do yaml) se pelo menos 2 técnicas foram listadas."""

@@ -352,3 +352,80 @@ Rode uma vez e guarde o endereço: ao compartilhar de novo, o link muda.
 - Não altere os datasets de avaliação - apenas os prompts em prompts/bug_to_user_story_v2.yml
 - Itere, itere, itere - é normal precisar de 3-5 iterações para atingir 0.8 em todas as métricas
 - Documente seu processo - a jornada de otimização é tão importante quanto o resultado final
+
+## Entrega
+
+Screenshot do resultado final no LangSmith, mostrando todas as métricas >= 0.8:
+
+<img width="1341" height="835" alt="image" src="https://github.com/user-attachments/assets/650a996a-f894-4351-b405-92a352fd563e" />
+
+
+### Técnicas Aplicadas (Fase 2)
+
+Quais técnicas avançadas você escolheu para refatorar os prompts
+Justificativa de por que escolheu cada técnica
+Exemplos práticos de como aplicou cada técnica
+
+### Role Prompting
+Justificativa: 
+Foi a primeira técnica que utilizei, pois adicionando a persona ajuda na forma de escrever o user story, além de ajudar a entender o contexto do problema.
+
+Exemplo:
+Você é um Product Owner Sênior com 10 anos de experiência em metodologias ágeis e BDD (Behavior-Driven Development)
+
+### Few-shot
+Justificativa:
+Segunda técnica que utilizei, pois sem ele, fica muito difícil para o modelo entender o formato da saída esperada. Com o few-shot, o modelo consegue entender e manter o padrão de saída esperado dependendo do tipo de bug (simples, médio ou complexo).
+
+Exemplo:
+```
+    ### Para bugs SIMPLES:
+
+    Como um <persona específica>, eu quero <ação/funcionalidade>, para que <benefício/valor>.
+
+    Critérios de Aceitação:
+    - Dado que <contexto>
+    - Quando <ação>
+    - Então <resultado esperado>
+    - E <resultado adicional>
+    - E <resultado adicional>
+```
+
+### "Chain of Thought"
+Como o desafio obrigatóriamente pede para utilizar um modelo sem thinking, utilizei a técnica de "Chain of Thought" para instruir o modelo a pensar passo a passo, ajudando a entender melhor o problema e gerar uma saída mais precisa.
+
+Sem o Chain of Thought, o resultado estava sendo muito vago, com informações faltando e sem o padrão esperado.
+
+```
+Antes de escrever a User Story, siga mentalmente estes passos — NÃO inclua o raciocínio na saída final, apenas o resultado:
+
+    Passo 1 — Classificar a complexidade do bug:
+      - Simples: problema pontual, um único componente afetado, sem detalhes técnicos profundos.
+      - Médio: envolve integração, performance, lógica de negócio ou segurança; inclui detalhes técnicos como logs, endpoints, métricas.
+      - Complexo: múltiplos problemas simultâneos, múltiplos componentes, impacto de negócio documentado.
+
+    Passo 2 — Identificar a persona impactada:
+      - Quem sofre com o bug? (cliente, administrador, vendedor, usuário de app, o próprio sistema, etc.)
+      - Seja específico: "cliente usando Safari", "gerente de vendas", "usuário do app Android", "sistema de e-commerce".
+      - Escolha um único papel, coerente com a tela ou função do relato (ex: dashboard de gestão de usuários → "administrador"); nunca use "X ou Y".
+      - Se o defeito está em uma integração ou processamento interno, sem ação direta do usuário (webhook, validação de estoque, sincronização, controle de acesso), use "o sistema" ou "o sistema de <domínio>".
+
+    Passo 3 — Extrair a ação desejada:
+      - O que essa persona QUER fazer que o bug impede?
+      - Foque na funcionalidade, não na correção técnica.
+
+    Passo 4 — Definir o valor de negócio:
+      - Por que resolver isso importa? Qual benefício real o usuário terá?
+
+    Passo 5 — Elaborar critérios de aceitação BDD:
+      - Use SEMPRE o formato: "- Dado que... / - Quando... / - Então... / - E..."
+      - Mínimo de 3 critérios; para bugs médios e complexos, inclua mais.
+      - Consulte o "Checklist por Tipo de Bug" para não esquecer critérios esperados.
+
+    Passo 6 — Avaliar se contexto técnico é necessário:
+      - Se o bug menciona logs, endpoints, SQL, stack traces, métricas de performance ou severidade → inclua uma seção "Contexto Técnico:" ao final.
+      - Se o bug é simples e sem detalhes técnicos → NÃO inclua contexto técnico.
+```
+
+
+

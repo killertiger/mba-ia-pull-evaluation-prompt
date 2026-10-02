@@ -433,6 +433,7 @@ Antes de escrever a User Story, siga mentalmente estes passos — NÃO inclua o 
 Evidências no LangSmith:
 https://smith.langchain.com/o/24855bcf-b339-4ba6-bd2f-efa760d2a0e4/datasets/7cc09363-d87f-4ac4-990d-6b971ba92210/compare?selectedSessions=e9b59daa-7a65-4ce7-9bc5-b19dac39c8a4
 
+<img width="1434" height="895" alt="image" src="https://github.com/user-attachments/assets/2259d050-9b8a-46d8-afa7-f8139ce48740" />
 
 
 Comparação entre o prompt original (v1) e o seu otimizado (v2):

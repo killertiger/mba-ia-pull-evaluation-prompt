@@ -359,6 +359,7 @@ Screenshot do resultado final no LangSmith, mostrando todas as métricas >= 0.8:
 
 <img width="1341" height="835" alt="image" src="https://github.com/user-attachments/assets/650a996a-f894-4351-b405-92a352fd563e" />
 
+Resultado público: https://smith.langchain.com/public/abc0088d-894a-4d9f-9322-8fdc8553c404/d
 
 ### Técnicas Aplicadas (Fase 2)
 
@@ -366,14 +367,14 @@ Quais técnicas avançadas você escolheu para refatorar os prompts
 Justificativa de por que escolheu cada técnica
 Exemplos práticos de como aplicou cada técnica
 
-### Role Prompting
+#### Role Prompting
 Justificativa: 
 Foi a primeira técnica que utilizei, pois adicionando a persona ajuda na forma de escrever o user story, além de ajudar a entender o contexto do problema.
 
 Exemplo:
 Você é um Product Owner Sênior com 10 anos de experiência em metodologias ágeis e BDD (Behavior-Driven Development)
 
-### Few-shot
+#### Few-shot
 Justificativa:
 Segunda técnica que utilizei, pois sem ele, fica muito difícil para o modelo entender o formato da saída esperada. Com o few-shot, o modelo consegue entender e manter o padrão de saída esperado dependendo do tipo de bug (simples, médio ou complexo).
 
@@ -391,7 +392,7 @@ Exemplo:
     - E <resultado adicional>
 ```
 
-### "Chain of Thought"
+#### Chain of Thought
 Como o desafio obrigatóriamente pede para utilizar um modelo sem thinking, utilizei a técnica de "Chain of Thought" para instruir o modelo a pensar passo a passo, ajudando a entender melhor o problema e gerar uma saída mais precisa.
 
 Sem o Chain of Thought, o resultado estava sendo muito vago, com informações faltando e sem o padrão esperado.
@@ -427,5 +428,44 @@ Antes de escrever a User Story, siga mentalmente estes passos — NÃO inclua o 
       - Se o bug é simples e sem detalhes técnicos → NÃO inclua contexto técnico.
 ```
 
+### Resultados Finais
+
+Evidências no LangSmith:
+https://smith.langchain.com/o/24855bcf-b339-4ba6-bd2f-efa760d2a0e4/datasets/7cc09363-d87f-4ac4-990d-6b971ba92210/compare?selectedSessions=e9b59daa-7a65-4ce7-9bc5-b19dac39c8a4
 
 
+
+Comparação entre o prompt original (v1) e o seu otimizado (v2):
+A comparação está no PR: https://github.com/killertiger/mba-ia-pull-evaluation-prompt/pull/1/changes#diff-13c45412122b87eb676bb1e094c0b3c94c1792997ec7a3dad1d06e5798f5bc79
+
+O prompt v1 era muito simples, não havia instruções de como deveria ser o formato de saída, não havia persona definida, não havia indicação de como o modelo deveria se comportar. Gerava resultados imprevisíveis, inconsistentes, com informações faltando e sem o padrão esperado.
+
+### Como Executar
+
+Setup:
+
+```
+python -m venv venv
+source venv/bin/activate  # No Windows: venv\Scripts\activate
+pip install -r requirements.txt
+```
+
+Copiar o `.env.example` para `.env` e utilizar os seguintes valores como padrão:
+```
+LANGSMITH_PROJECT=full_cicle_prompt_optimization
+USERNAME_LANGSMITH_HUB=killertiger
+
+OPENAI_API_KEY={COLOCAR A SUA API KEY AQUI}
+
+LLM_PROVIDER=openai
+
+LLM_MODEL=gpt-5.4-mini
+EVAL_MODEL=gpt-5.4
+```
+
+Executar:
+```bash
+python src/evaluate.py
+```
+
+Resultado público: https://smith.langchain.com/public/abc0088d-894a-4d9f-9322-8fdc8553c404/d
